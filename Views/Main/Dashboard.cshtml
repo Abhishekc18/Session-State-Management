@@ -1,0 +1,11 @@
+﻿<h1>Welcome,@ViewBag.Username</h1>
+
+@*segregating pages according to the user*@
+
+@if(ViewBag.Role=="Admin"){
+
+    <a>Delete</a>
+    <a>Edit</a>
+}
+
+<a>Details</a>
