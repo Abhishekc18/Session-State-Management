@@ -11,7 +11,7 @@ variables:
 
 resources:
  pipelines:
-     - pipeline: 'BuildingPipeline'
+     - pipeline: 'buildPipeline'
        project: 'Session State Management'
        source: 'Build pipeline'
        branch: 'main'
@@ -32,7 +32,7 @@ stages:
                   steps:
                       - checkout: none
 
-                      - download: 'BuildingPipeline'
+                      - download: 'buildPipeline'
                         name: 'DownloadBuildArtifacts'
                         displayName: 'Download Build Artifacts'
                         artifact: 'drop'
@@ -50,7 +50,7 @@ stages:
                         displayName: 'Deploy IIS Website'
                         inputs:
                           WebSiteName: '''${{ variables.IISWebsiteName }}'''
-                          Package: '$(Pipeline.Workspace)\BuildingPipeline\drop\*.zip'
+                          Package: '$(Pipeline.Workspace)\buildPipeline\drop\*.zip'
                           TakeAppOfflineFlag: true
                       
                       - task: IISWebAppManagementOnMachineGroup@0
