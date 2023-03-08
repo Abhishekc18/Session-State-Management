@@ -50,7 +50,7 @@ stages:
                         displayName: 'Deploy IIS Website'
                         inputs:
                           WebSiteName: '''${{ variables.IISWebsiteName }}'''
-                          Package: '$(Pipeline.Workspace)\buildPipeline\drop\*.zip'
+                          Package: '$(Pipeline.Workspace)\buildPipeline\drop\WebApp.zip'
                           TakeAppOfflineFlag: true
                       
                       - task: IISWebAppManagementOnMachineGroup@0
