@@ -35,7 +35,7 @@ stages:
                       - download: 'buildPipeline'
                         name: 'DownloadBuildArtifacts'
                         displayName: 'Download Build Artifacts'
-                        artifact: 'drop'
+                        artifact: 'SessionStateManagement'
                       
                       - task: IISWebAppManagementOnMachineGroup@0
                         name: 'StopIIS'
@@ -50,7 +50,7 @@ stages:
                         displayName: 'Deploy IIS Website'
                         inputs:
                           WebSiteName: '''${{ variables.IISWebsiteName }}'''
-                          Package: '$(Pipeline.Workspace)\buildPipeline\drop\WebApp.zip'
+                          Package: '$(Pipeline.Workspace)\buildPipeline\SessionStateManagement\s'
                           TakeAppOfflineFlag: true
                       
                       - task: IISWebAppManagementOnMachineGroup@0
