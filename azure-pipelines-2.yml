@@ -49,7 +49,7 @@ stages:
                         name: 'DeployIIS'
                         displayName: 'Deploy IIS Website'
                         inputs:
-                          WebSiteName: '''${{ variables.IISWebsiteName }}'''
+                          WebSiteName: '${{ variables.IISWebsiteName }}'
                           Package: '$(Pipeline.Workspace)\buildPipeline\SessionStateManagement\s'
                           TakeAppOfflineFlag: true
                       
