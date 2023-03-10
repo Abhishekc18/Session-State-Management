@@ -10,10 +10,10 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  solution: '**/*.sln'
+  solution: '**/SessionStateManagementForHighScalability/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  project: '**/*.csproj'
+  project: '**/SessionStateManagementForHighScalability/*.csproj'
 
 steps:
 - task: NuGetToolInstaller@1
