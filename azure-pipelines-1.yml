@@ -1,64 +1,55 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+# ASP.NET Core (.NET Framework)
+# Build and test ASP.NET Core projects targeting the full .NET Framework.
+# Add steps that publish symbols, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 trigger:
 - none
 
+pool:
+  vmImage: 'windows-latest'
+
 variables:
-  IISWebsiteName: 'sessionstate'
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  project: '**/*.csproj'
 
-resources:
- pipelines:
-     - pipeline: 'buildPipeline'
-       project: 'Session State Management'
-       source: 'Build pipeline'
-       branch: 'main'
+steps:
+- task: NuGetToolInstaller@1
+  name: 'NuGetToolInstaller'
+  displayName: 'Nuget Tool Installer'
 
-stages:
-    - stage: DeployWebsite
-      displayName: 'Deploy website'
-      pool:
-        vmImage: windows-latest
-    
-      jobs:
-      - deployment: DeployWebsite
-        displayName: 'Deploy Website'
-        environment: 'devenv.TTPL-LNV-0114'
-        strategy:
-          runOnce:
-              deploy:
-                  steps:
-                      - checkout: none
+- task: NuGetCommand@2
+  name: 'NuGetRestore'
+  displayName: 'Nuget Restore packages'
+  inputs:
+    command: 'restore'
+    restoreSolution: '$(solution)'
+    feedsToUse: 'select'
 
-                      - download: 'buildPipeline'
-                        name: 'DownloadBuildArtifacts'
-                        displayName: 'Download Build Artifacts'
-                        artifact: 'SessionStateManagement'
-                      
-                      - task: IISWebAppManagementOnMachineGroup@0
-                        name: 'StopIIS'
-                        displayName: 'Stop IIS Website'
-                        inputs:
-                            IISDeploymentType: 'IISWebsite'
-                            ActionIISWebsite: 'StopWebsite'
-                            StartStopWebsiteName: '${{ variables.IISWebsiteName }}'
-                      
-                      - task: IISWebAppDeploymentOnMachineGroup@0
-                        name: 'DeployIIS'
-                        displayName: 'Deploy IIS Website'
-                        inputs:
-                          WebSiteName: '${{ variables.IISWebsiteName }}'
-                          Package: '$(Pipeline.Workspace)\buildPipeline\SessionStateManagement\s'
-                          TakeAppOfflineFlag: true
-                      
-                      - task: IISWebAppManagementOnMachineGroup@0
-                        name: 'StartIIS'
-                        displayName: 'Start IIS Website'
-                        inputs:
-                          IISDeploymentType: 'IISWebsite'
-                          ActionIISWebsite: 'StartWebsite'
-                          StartStopWebsiteName: '${{ variables.IISWebsiteName }}'
+- task: DotNetCoreCLI@2
+  name: 'Tests'
+  displayName: 'Run Tests'
+  inputs:
+    command: 'test'
+    projects: '$(solution)'
+    arguments: '--configuration $(BuildConfiguration)'
 
+- task: DotNetCoreCLI@2
+  name: 'Publish'
+  displayName: 'Publish'
+  inputs:
+    command: 'publish'
+    publishWebProjects: false
+    projects: '$(project)'
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: false
 
+- task: PublishBuildArtifacts@1
+  name: 'PublishBuildArtifacts'
+  displayName: 'Publish Build Artifacts'
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'SessionStateManagement'
+    publishLocation: 'Container'
