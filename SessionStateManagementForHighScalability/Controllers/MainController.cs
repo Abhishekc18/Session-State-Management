@@ -20,7 +20,7 @@ namespace SessionStateManagementForHighScalability.Controllers
         public IActionResult RegisterNewUser()
         {
             //throw new NotImplementedException();
-            return View();
+            //return View();
         }
         public ActionResult ReturnSession(int type)
         {
