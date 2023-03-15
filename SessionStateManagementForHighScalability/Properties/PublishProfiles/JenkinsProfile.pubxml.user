@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>D:\Git\SessionStateManagement\SessionStateManagementForHighScalability\bin\Release\net6.0\publish\</_PublishTargetUrl>
+    <History>True|2023-03-15T10:33:47.2047510Z;True|2023-03-15T12:54:14.7335579+05:30;True|2023-03-14T16:26:34.9888779+05:30;True|2023-03-14T14:52:51.2098505+05:30;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+</Project>
