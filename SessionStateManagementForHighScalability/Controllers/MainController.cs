@@ -85,6 +85,7 @@ namespace SessionStateManagementForHighScalability.Controllers
             if (Request.Cookies["LastLoggedInTime"] != null)
             {
                 ViewBag.LTLD = Request.Cookies["LastLoggedInTime"].ToString();
+
             }
             return View();
 
