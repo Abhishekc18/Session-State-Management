@@ -10,7 +10,7 @@ builder.Services.AddDbContext<UMSContext>(options => options.UseSqlServer(
     ));
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
-
+// app builder
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
