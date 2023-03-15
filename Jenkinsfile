@@ -1,16 +1,18 @@
 pipeline {
-    agent { docker { image 'mcr.microsoft.com/dotnet/aspnet:6.0' } }
-
+    agent { 
+        node {
+            label 'docker-agent-dotnet'
+            }
+      }
     stages {
         stage('Build') {
-      steps {
-        // Checkout the GitHub repository
-         dir('SessionStateManagementForHighScalability') {
-          // Use MSBuild to build the solution file
-           sh 'dotnet build  SessionStateManagementForHighScalability.sln'
-       }
-      }
+            steps {
+                echo "Building.."
+                sh '''
+                cd SessionStateManagementForHighScalability
+                dotnet build  SessionStateManagementForHighScalability.sln
+                '''
+            }
+        }
     }
-  }
 }
-    
